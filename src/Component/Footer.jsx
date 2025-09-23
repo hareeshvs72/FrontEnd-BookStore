@@ -5,13 +5,13 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 function Footer() {
   return (
     <>
-      <footer className=" shadow-lg mt-8" style={{backgroundColor:"#1E2939"}}>
-      <div className="container mx-auto  pt-8">
+      <footer className=" mt-1" style={{backgroundColor:"#1E2939"}}>
+      <div className=" mx-auto  pt-8">
         <div className="grid grid-cols-1 px-10 md:grid-cols-3 gap-8">
           {/* About Us Section */}
           <div className="col-span-1">
             <h3 className="text-xl font-bold mb-4 text-white">ABOUT US</h3>
-            <p className="text-white leading-relaxed">
+            <p className="text-white leading-relaxed ">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
               Cupiditate dolorem veniam deserunt cuissuam eius ad 
               his mexime dicta ipsum nemo faque necessitatibus quas 
@@ -48,7 +48,7 @@ function Footer() {
         </div>
         
         {/* Copyright Section */}
-        <div className=" border-gray-200 mt-8 p-3 text-center  bg-black">
+        <div className=" border-gray-200 mt-8 p-3 text-center font-normal text-xs md:text-base  bg-black">
           <p className="text-white text-center">
             Copyright © 2023 All rights reserved | This website is made with by Amiya
           </p>
