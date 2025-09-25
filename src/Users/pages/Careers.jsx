@@ -24,12 +24,12 @@ function Careers() {
             <input type="text" className='p-2 me-2 rounded border border-gray-400 text-black w-100 placeholder-gray-400' placeholder='Job Title' />
             <button className='px-5  bg-[#327E32] text-white'>Search</button>
           </div>
-          {/* job box */}
+          {/* job box  duplicate*/}
           <div className='border w-full rounded shadow-2xl p-4'>
             <div>
               <div className='flex justify-between'>
                 <h1 className='m-3 font-bold'>job title </h1>
-                <button className='md:px-5 px-3 bg-blue-700 text-white'>Apply <FontAwesomeIcon icon={faSquareUpRight} className='text-xl' /></button>
+                <button className='md:px-5 px-3 bg-blue-700 hover:bg-white border border-blue-500 hover:text-blue-500 font-bold text-white'>Apply <FontAwesomeIcon icon={faSquareUpRight} className='text-xl' /></button>
               </div>
               <div className='px-5 pe-29'> <hr className='my-3 ' /></div>
 
