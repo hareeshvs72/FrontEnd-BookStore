@@ -71,7 +71,7 @@ function AllBooks() {
                 <p className="text-blue-700 font-bold text-lg">Author</p>
                 <p >Book Title</p>
                 <p>$ 400</p>
-                <Link className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
+                <Link to={'/books/:id/view'} className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
 
               </div>
             </div>
@@ -81,7 +81,7 @@ function AllBooks() {
                 <p className="text-blue-700 font-bold text-lg">Author</p>
                 <p >Book Title</p>
                 <p>$ 400</p>
-                 <Link className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
+                 <Link to={'/books/:id/view'} className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
 
               </div>
             </div>
@@ -91,7 +91,7 @@ function AllBooks() {
                 <p className="text-blue-700 font-bold text-lg">Author</p>
                 <p >Book Title</p>
                 <p>$ 400</p>
-                 <Link className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
+                 <Link to={'/books/:id/view'} className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
 
               </div>
             </div>
@@ -101,7 +101,7 @@ function AllBooks() {
                 <p className="text-blue-700 font-bold text-lg">Author</p>
                 <p >Book Title</p>
                 <p>$ 400</p>
-                 <Link className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
+                 <Link to={'/books/:id/view'} className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
 
               </div>
             </div>

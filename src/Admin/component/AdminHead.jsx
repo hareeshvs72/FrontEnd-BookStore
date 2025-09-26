@@ -27,7 +27,7 @@ function AdminHead() {
         </div>
       </div>
       <div className='bg-black  px-2 md:py-2'>
-        <p className='text-sm text-white tracking-tighter text-center ' >Welcome,  Admin! You're all set to manage and monitor the system. Let’s get to work!</p>
+        <marquee   className='text-sm text-white tracking-tighter text-center ' >Welcome,  Admin! You're all set to manage and monitor the system. Let’s get to work!</marquee>
       </div>
        
 

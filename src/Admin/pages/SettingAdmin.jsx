@@ -3,7 +3,7 @@ import AdminHead from '../component/AdminHead'
 import Footer from '../../Component/Footer'
 import AdminSideBar from '../component/AdminSideBar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
 
 function SettingAdmin() {
   return (
@@ -29,10 +29,15 @@ function SettingAdmin() {
 
               <div className='bg-[#DBEAFE] md:px-10 md:py-5 p-3 rounded '>
 
-                <div className='flex items-center   flex-col '>
-                  <FontAwesomeIcon className='border p-3' icon={faUser} style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
-                  <p className='my-2'>User Name</p>
+                <div className='flex items-center relative  flex-col '>
+                  <label htmlFor="adminpic" className=''>
+                    <img className='border ' src='https://tse1.mm.bing.net/th/id/OIP.w-f-qDRUjGt9e_SuPTcfcgHaHw?pid=Api&P=0&h=180' alt='user admin logo' style={{width:'100px', height:'100px', borderRadius:'50%'}} />
+                    <FontAwesomeIcon icon={faPen} className='bg-yellow-400 p-1 text-white rounded absolute bottom-0 ml-17'/>
+                  </label>
+                  <input type="file" id='adminpic' name='' className='hidden ' />
+                 
                 </div>
+                 <p className='my-2 text-center'>User Name</p>
                 <form>
                   <input type="text" placeholder='User Name' className='px-3 py-2 my-2 w-full bg-white rounded' />
 
