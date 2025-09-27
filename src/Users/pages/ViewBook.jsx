@@ -58,7 +58,7 @@ function ViewBook() {
         <div className="relative z-10" onClick={() => setModalStatus(false)} >
         <div className='bg-gray-500/75 fixed inset-0 transition-opacity' >
                 <div className="flex justify-center items-center md:min-h-screen">
-                     <div className='bg-white rounded-2xl'  style={{width:'700px'}}>
+                     <div className='bg-white rounded-2xl'  style={{width:'900px'}}>
                         <div className='bg-black text-white p-3 flex justify-between w-full'>
                           <h3>Books Images</h3>
                           <FontAwesomeIcon icon={faXmark} onClick={() => setModalStatus(false)}/>
@@ -68,10 +68,14 @@ function ViewBook() {
                             <FontAwesomeIcon icon={faCamera} />
                             Camera Click Of the  in the hand of seller
                           </p>
+                          <div className="md:flex flex-wrap * my-4">
+                          <img  width={'250px'} height={'250px'} src="/book.jpg" alt="" className='mx-2 my-2' />
+                           <img width={'250px'} height={'250px'}src="/book.jpg" alt="" className='mx-2 my-2' />
+                            <img  width={'250px'} height={'250px'} src="/book.jpg" alt="" className='mx-2 my-2' />
+                             
                         </div>
-                        <div className="md:flex my-4">
-                          <img  width={'300px'} height={'300px'} src="https://tse1.mm.bing.net/th/id/OIP._v4yORE-EE6Jj_0ylgsukwHaFG?pid=Api&P=0&h=180" alt="" />
                         </div>
+                        
                      </div>
                 </div>
         </div>
