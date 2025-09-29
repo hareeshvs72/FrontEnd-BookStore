@@ -98,17 +98,19 @@ function Careers() {
                         ></textarea>
                         </div>
 
-                        <div className='mx-3'>
-                            <input
-                          type="file"
-                          placeholder="Phone Number"
-                          className="px-3 py-2 my-2 w-full border  border-gray-400 mx-2 bg-white rounded"
-                        />
-                        </div>
-
+                    
+                             <div className="mx-3">
+                              <label htmlFor="Resume">Resume</label>
+                              <input type="file" name='' id='Resume' className='w-full  border rounded file:p-2 file:text-white file:bg-gray-400' />
+                             </div>
 
 
                     </form>
+
+                  </div>
+                  <div className='bg-gray-400 p-2 w-full flex justify-end'>
+                    <button className="py-2 px-3 rounded bg-black text-white">Reset</button>
+                       <button className="py-2 px-3 rounded mx-2 bg-blue-600 text-white">Submit</button>
 
                   </div>
 
