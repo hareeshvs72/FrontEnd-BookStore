@@ -9,5 +9,9 @@ export const registerApi = async(reqBody)=>{
 }
   
 // login APi
+export const loginApi = async(reqBody)=>{
+  return await  commonApi("POST",`${SERVERURL}/login`,reqBody)
+}
+  
 // home page book api
 // all carear api

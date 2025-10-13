@@ -1,10 +1,11 @@
 import { faEye, faEyeSlash, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
-
+import { loginApi, registerApi } from '../services/allAPI'
 function Auth({ register }) {
+  const navigate = useNavigate()
   const [viewPasswordStatus, setViewPasswordStatus] = useState(false)
   const [userDetails, setUserDetails] = useState({
     username: '',
@@ -12,17 +13,66 @@ function Auth({ register }) {
     password: ''
   })
   // console.log(userDetails);
-
-  const handileRegister = () => {
+//  register steps
+  const handileRegister = async () => {
     console.log('Inside handileRegister ');
     const { username, email, password } = userDetails
     if (!username || !email || !password) {
       toast.info("Please fill the form Completely");
     }
     else {
-      toast.success("proceed to api call")
+      // toast.success("proceed to api call")
+      try {
+        const result = await registerApi(userDetails)
+        console.log(result);
+
+        if (result.status == 200) {
+          toast.success("Register SucessFully !!! Please Login")
+          setUserDetails({ username: '',email: '', password: '' })
+          navigate('/login')
+        }
+        else if (result.status == 409) {
+          toast.warning(result.response.data)
+           setUserDetails({ username: '',email: '', password: '' })
+          navigate('/login')
+        }
+        else{
+          console.log(result);
+          
+        }
+      } catch (err) {
+        console.log(err);
+
+      }
     }
 
+  }
+  const handileLogin = async()=>{
+       const {  email, password } = userDetails
+    if ( !email || !password) {
+      toast.info("Please fill the form Completely");
+    }
+    else {
+      // toast.success("proceed to api call")
+      try {
+        const result = await loginApi(userDetails)
+        console.log(result);
+
+        if (result.status == 200) {
+          
+        }
+        else if (result.status == 404) {
+         
+        }
+        else{
+          console.log(result);
+          
+        }
+      } catch (err) {
+        console.log(err);
+
+      }
+    }
   }
 
   return (
@@ -55,7 +105,7 @@ function Auth({ register }) {
               register ?
                 <button type='button' onClick={handileRegister} className='w-full  py-2 rounded bg-green-800 text-white'>Register</button>
                 :
-                <button className='w-full  py-2 rounded bg-green-800 text-white'>Login</button>
+                <button type='button' onClick={handileLogin} className='w-full   py-2 rounded bg-green-800 text-white'>Login</button>
             }
             <div className='text-center my-3 text-white'>
               ---------or------------
@@ -78,7 +128,7 @@ function Auth({ register }) {
         autoClose={3000}
         pauseOnHover
         theme="colored"
-        
+
       />
     </>
   )
