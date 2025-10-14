@@ -1,11 +1,22 @@
 import { faInstagram, faXTwitter, faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function Header() {
   const [listStatus , setListStatus] = useState(false)
+  const [token ,setToken] = useState("")
+  const [userDp , setUserDp] = useState("")
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("token")){
+      const token = sessionStorage.getItem("token")
+      setToken(token)
+      const user =JSON.parse(sessionStorage.getItem("users"))
+      setUserDp(user.profile)
+    }
+  },[])
   return (
     <>
 
@@ -31,11 +42,19 @@ function Header() {
 
           {/* login link */}
 
-                <Link to={'/login'}  >
+               {!token ? 
+               <Link to={'/login'}  >
                  <button className=' border border-black rounded px-3 ms-3 py-2 hover:bg-black hover:text-white'>
                     <FontAwesomeIcon className='ms-2' icon={faUser} />Login
                 </button>
                 </Link>
+                :
+                 <div className='mx-2'>
+                    <button>
+                      <img src={userDp == "" ? "https://cdn-icons-png.flaticon.com/512/219/219988.png" : userDp } width={'40px'} height={'40px'} className='rounded-full' alt="user Dp" />
+                    </button>
+                 </div>
+                }
         </div>
 
 

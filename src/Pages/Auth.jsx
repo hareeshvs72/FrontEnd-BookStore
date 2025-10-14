@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import { loginApi, registerApi } from '../services/allAPI'
+import { GoogleLogin } from '@react-oauth/google'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 function Auth({ register }) {
   const navigate = useNavigate()
   const [viewPasswordStatus, setViewPasswordStatus] = useState(false)
@@ -13,7 +15,7 @@ function Auth({ register }) {
     password: ''
   })
   // console.log(userDetails);
-//  register steps
+  //  register steps
   const handileRegister = async () => {
     console.log('Inside handileRegister ');
     const { username, email, password } = userDetails
@@ -28,17 +30,18 @@ function Auth({ register }) {
 
         if (result.status == 200) {
           toast.success("Register SucessFully !!! Please Login")
-          setUserDetails({ username: '',email: '', password: '' })
+          setUserDetails({ username: '', email: '', password: '' })
           navigate('/login')
         }
         else if (result.status == 409) {
           toast.warning(result.response.data)
-           setUserDetails({ username: '',email: '', password: '' })
+          setUserDetails({ username: '', email: '', password: '' })
           navigate('/login')
         }
-        else{
+        else {
           console.log(result);
-          
+          setUserDetails({ username: '', email: '', password: '' })
+
         }
       } catch (err) {
         console.log(err);
@@ -47,9 +50,9 @@ function Auth({ register }) {
     }
 
   }
-  const handileLogin = async()=>{
-       const {  email, password } = userDetails
-    if ( !email || !password) {
+  const handileLogin = async () => {
+    const { email, password } = userDetails
+    if (!email || !password) {
       toast.info("Please fill the form Completely");
     }
     else {
@@ -59,14 +62,32 @@ function Auth({ register }) {
         console.log(result);
 
         if (result.status == 200) {
-          
+          toast.success("Login Sucessfully !!!")
+          sessionStorage.setItem("users", JSON.stringify(result.data.user))
+          sessionStorage.setItem("token", result.data.token)
+          setTimeout(() => {
+            if (result.data.user.role == 'admin') {
+              navigate('/admin-dashbord')
+            }
+            else {
+              navigate('/')
+            }
+          })
+        }
+        else if (result.status == 401) {
+          toast.warning(result.response.data)
+          setUserDetails({ username: '', email: '', password: '' })
+
+
         }
         else if (result.status == 404) {
-         
+          toast.warning(result.response.data)
+          setUserDetails({ username: '', email: '', password: '' })
+
         }
-        else{
-          console.log(result);
-          
+        else {
+          toast.error("something Went Wrong !!!")
+          setUserDetails({ username: '', email: '', password: '' })
         }
       } catch (err) {
         console.log(err);
@@ -107,10 +128,28 @@ function Auth({ register }) {
                 :
                 <button type='button' onClick={handileLogin} className='w-full   py-2 rounded bg-green-800 text-white'>Login</button>
             }
-            <div className='text-center my-3 text-white'>
-              ---------or------------
-            </div>
             {/* google auth  */}
+            <div className='text-center my-3 text-white'>
+              {!register &&
+                <>
+                  <p>   ---------or------------</p>
+                  <GoogleOAuthProvider>
+                  <GoogleLogin
+                    onSuccess={credentialResponse => {
+                      console.log(credentialResponse);
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  />
+                  </GoogleOAuthProvider>
+
+                </>
+
+              }
+            </div>
+
+
             {
               register ?
                 <p className='text-white text-center text-sm' >Are You Already A user? <Link to={'/login'} className='underline text-yellow-400' >Login</Link></p>
