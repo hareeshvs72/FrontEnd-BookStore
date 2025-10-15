@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
-import { loginApi, registerApi } from '../services/allAPI'
+import { googleLoginApi, loginApi, registerApi } from '../services/allAPI'
 import { GoogleLogin } from '@react-oauth/google'
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import {jwtDecode} from 'jwt-decode'
+
 function Auth({ register }) {
   const navigate = useNavigate()
   const [viewPasswordStatus, setViewPasswordStatus] = useState(false)
@@ -72,7 +74,7 @@ function Auth({ register }) {
             else {
               navigate('/')
             }
-          })
+          },2500)
         }
         else if (result.status == 401) {
           toast.warning(result.response.data)
@@ -94,6 +96,34 @@ function Auth({ register }) {
 
       }
     }
+  }
+  const handileGoogleLogin = async (credentialResponse)=>{
+         console.log('inside handileGoogle Login');
+         const credential = credentialResponse.credential
+         const details = jwtDecode(credential)
+         console.log(details);
+         const result = await googleLoginApi({username:details.name,email:details.email,password:"gogleloginpswd",profile:details.picture,})
+         console.log(result);
+
+         if (result.status == 200) {
+          toast.success("Login Sucessfully !!!")
+          sessionStorage.setItem("users", JSON.stringify(result.data.user))
+          sessionStorage.setItem("token", result.data.token)
+          setTimeout(() => {
+            if (result.data.user.role == 'admin') {
+              navigate('/admin-dashbord')
+            }
+            else {
+              navigate('/')
+            }
+          },2500)
+        }
+        else{
+           toast.error("something Went Wrong !!!")
+        }
+         
+
+         
   }
 
   return (
@@ -131,20 +161,19 @@ function Auth({ register }) {
             {/* google auth  */}
             <div className='text-center my-3 text-white'>
               {!register &&
-                <>
+                <div className=''>
                   <p>   ---------or------------</p>
-                  <GoogleOAuthProvider>
-                  <GoogleLogin
+                 <GoogleLogin
                     onSuccess={credentialResponse => {
                       console.log(credentialResponse);
+                      handileGoogleLogin(credentialResponse)
                     }}
                     onError={() => {
                       console.log('Login Failed');
                     }}
                   />
-                  </GoogleOAuthProvider>
 
-                </>
+                </div>
 
               }
             </div>
