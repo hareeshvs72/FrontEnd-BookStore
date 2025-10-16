@@ -101,8 +101,8 @@ function Auth({ register }) {
          console.log('inside handileGoogle Login');
          const credential = credentialResponse.credential
          const details = jwtDecode(credential)
-         console.log(details);
-         const result = await googleLoginApi({username:details.name,email:details.email,password:"gogleloginpswd",profile:details.picture,})
+         console.log(details.picture);
+         const result = await googleLoginApi({username:details.name,email:details.email,password:"gogleloginpswd",profile:details.picture})
          console.log(result);
 
          if (result.status == 200) {
