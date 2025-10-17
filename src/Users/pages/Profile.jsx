@@ -2,12 +2,33 @@ import React, { useState } from 'react'
 import Header from '../Components/Header'
 import Footer from '../../Component/Footer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
 
 function Profile() {
      const [sellBookStatus , setSellBookStatus] = useState(true)
   const [bookStatus , setBookStatus] = useState(false)
     const [purchaseStatus , setPurchaseStatus] = useState(false)
+    const [bookDetails,setBookDetails] = useState({
+      title:"",author:"",noOfPages:"",imageUrl:"",price:"",discountPrice:"",abstract:"",publisher:"",language:"",isbn:"",category:"",uploadImg:[]
+    })
+   const [preview ,setPreview] = useState("")
+   const [previewList ,setPreviewList] = useState([])
+    console.log(bookDetails);
+    
+    const handileUpLoadImage = (e)=>{
+              // console.log(e.target.files[0]);
+              const fileArray = bookDetails.uploadImg
+              fileArray.push(e.target.files[0])
+              setBookDetails({...bookDetails,uploadImg:fileArray})
+              const url = URL.createObjectURL(e.target.files[0])
+              // console.log(url);
+              setPreview(url)
+
+              const bookImgArray = previewList
+              bookImgArray.push(url)
+              setPreviewList(bookImgArray)
+              
+    }
   return (
     <>
        <Header/>
@@ -47,7 +68,9 @@ function Profile() {
                      <div className="md:grid grid-cols-2 mt-10 w-full">
                       <div className='px-3'>
                         <div className="mb-3 px-3">
-                           <input
+                           <input 
+                           value={bookDetails.title}
+                           onChange={e=>setBookDetails({...bookDetails,title:e.target.value})}
                             type="text"
                             placeholder="Title"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
@@ -56,6 +79,8 @@ function Profile() {
                        
                         <div className="mb-3 px-3">
                            <input
+                            value={bookDetails.author}
+                           onChange={e=>setBookDetails({...bookDetails,author:e.target.value})}
                             type="text"
                             placeholder="Author"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
@@ -64,6 +89,8 @@ function Profile() {
                         
                         <div className="mb-3 px-3">
                            <input
+                              value={bookDetails.noOfPages}
+                           onChange={e=>setBookDetails({...bookDetails,noOfPages:e.target.value})}
                             type="text"
                             placeholder="No of Pages"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
@@ -72,13 +99,17 @@ function Profile() {
                         
                         <div className="mb-3 px-3">
                            <input
+                                  value={bookDetails.imageUrl}
+                           onChange={e=>setBookDetails({...bookDetails,imageUrl:e.target.value})}
                             type="text"
                             placeholder="Image Url"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
                           />
                         </div>
                          <div className="mb-3 px-3">
-                           <input
+                           <input 
+                                 value={bookDetails.price}
+                           onChange={e=>setBookDetails({...bookDetails,price:e.target.value})}
                             type="text"
                             placeholder="Price"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
@@ -86,6 +117,8 @@ function Profile() {
                         </div>
                          <div className="mb-3 px-3">
                            <input
+                                value={bookDetails.discountPrice}
+                           onChange={e=>setBookDetails({...bookDetails,discountPrice:e.target.value})}
                             type="text"
                             placeholder="Discount Price"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
@@ -93,6 +126,8 @@ function Profile() {
                         </div>
                           <div className='mb-3 px-3'>
                         <textarea
+                             value={bookDetails.abstract}
+                           onChange={e=>setBookDetails({...bookDetails,abstract:e.target.value})}
                           placeholder="Abstarct"
                           className="px-3 py-2 my-2 w-full border mx-2 h-25 border-gray-400 placeholder-gray-400 bg-white rounded"
                         ></textarea>
@@ -103,6 +138,8 @@ function Profile() {
                     
                        <div className="mb-3 px-3">
                            <input
+                                value={bookDetails.publisher}
+                           onChange={e=>setBookDetails({...bookDetails,publisher:e.target.value})}
                             type="text"
                             placeholder="Publisher"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
@@ -110,6 +147,8 @@ function Profile() {
                         </div>
                         <div className="mb-3 px-3">
                            <input
+                                value={bookDetails.language}
+                           onChange={e=>setBookDetails({...bookDetails,language:e.target.value})}
                             type="text"
                             placeholder="Language"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
@@ -117,6 +156,8 @@ function Profile() {
                         </div>
                         <div className="mb-3 px-3">
                            <input
+                                value={bookDetails.isbn}
+                           onChange={e=>setBookDetails({...bookDetails,isbn:e.target.value})}
                             type="text"
                             placeholder="ISBN"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
@@ -124,20 +165,41 @@ function Profile() {
                         </div>
                         <div className="mb-3 px-3">
                            <input
+                                value={bookDetails.category}
+                           onChange={e=>setBookDetails({...bookDetails,category:e.target.value})}
                             type="text"
                             placeholder="Category"
                             className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 placeholder-gray-400 bg-white rounded"
                           />
                         </div>
                          <div className="mb-3 px-3 flex justify-center items-center">
-                          <label htmlFor="upload">
-                            <img style={{width:'200px' ,height:'200px', borderRadius:'50%'}} src="https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_1280.png" alt="" />
+                          <label htmlFor="upload"  >
+                          {!preview ? <img style={{width:'200px' ,height:'200px', borderRadius:'50%'}} src="https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_1280.png" alt="" />
+                          : 
+                          <img style={{width:'200px' ,height:'200px'}} src={preview} alt="book" />
+                        }
                           </label>
                            <input id='upload'
+                           onChange={(e)=>handileUpLoadImage(e)}
                             type="file"
                             className="hidden"
                           />
                         </div>
+                      {preview &&   <div className=" flex justify-center items-center">
+                        {
+                          previewList?.map(imgUrl=>(
+                            <img src={imgUrl} alt="books" width={'70px'} height={'70px'} className='mx-3' />
+                          ))
+                        }
+                        { previewList.length<3 &&  <label htmlFor="upload"  >
+                         <FontAwesomeIcon icon={faSquarePlus} className='fa-2x shadow ms-3 text-gray-500' />
+                          </label>}
+                           <input id='upload'
+                           onChange={(e)=>handileUpLoadImage(e)}
+                            type="file"
+                            className="hidden"
+                          />
+                        </div>}
                      </div>
                      </div>
 
