@@ -1,10 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import Footer from '../../Component/Footer'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
+import { getHomeBookApi } from '../../services/allAPI'
 function Home() {
+  const [homeBooks , setHomeBooks] = useState([])
+  useEffect(()=>{
+     getHomeBooks()
+  },[])
+  console.log(homeBooks);
+  
+  const getHomeBooks = async()=>{
+    try {
+      const result = await getHomeBookApi()
+      if(result.status==200){
+             setHomeBooks(result.data)
+      }
+     
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   return (
     <>
       <Header />
@@ -31,17 +50,21 @@ function Home() {
         <h1 className='text-3xl'>Explore Our Latest Collections</h1>
 
         <div className="md:grid grid-cols-4 w-full mt-5">
-          <div className="p-3">
-            <div className="shadow p-3 rounded mx-2">
-              <img width={'100%'} style={{ height: '300px' }} src="https://wallpaperaccess.com/full/1209397.jpg" alt="book" />
+          { homeBooks?.length>0 ?
+            homeBooks?.map((books,index)=>(<div className="p-3">
+            <div key={index} className="shadow p-3 rounded mx-2 min-h-[500px]">
+              <img width={'100%'} style={{ height: '300px' }} src={books?.imageUrl} alt="book" />
               <div className="flex justify-center flex-col items-center ">
-                <p className="text-blue-700 font-bold text-lg">Author</p>
-                <p >Book Title</p>
-                <p>$ 400</p>
+                <p className="text-blue-700 font-bold text-lg">{books?.author}</p>
+                <p className='my-2 text-center'>{books?.title}</p>
+                <p className='my-2 text-red-400'>{books.price}</p>
 
               </div>
             </div>
-          </div>
+          </div>))
+            :
+            <p>Loading .........</p>
+            }
         </div>
         <div className="text-center my-5">
           <Link to={'/all-books'} className='bg-blue-600 p-3' >Explore More...</Link>

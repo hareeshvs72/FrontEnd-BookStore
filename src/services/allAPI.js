@@ -17,7 +17,10 @@ export const googleLoginApi = async(reqBody)=>{
   return await  commonApi("POST",`${SERVERURL}/google-login`,reqBody)
 }
   
-// home page book api
+// home page book api - call by home in useeffect
+export const getHomeBookApi = async()=>{
+  return await  commonApi("GET",`${SERVERURL}/home-books`)
+}
 // all carear api
 
 // ------------------ autheriesd user api ------------------------------
