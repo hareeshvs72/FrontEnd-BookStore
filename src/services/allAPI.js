@@ -29,7 +29,12 @@ export const getHomeBookApi = async()=>{
   return await  commonApi("POST",`${SERVERURL}/add-book`,reqBody,reqHeader)
 }
 
-// view all books
+// view all books -  called by book componet
+
+export const getAllBookApi = async(reqHeader)=>{
+  return await  commonApi("GET",`${SERVERURL}/all-books`,{},reqHeader)
+}
+
 // view single book
 
 
