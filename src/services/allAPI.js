@@ -35,9 +35,11 @@ export const getAllBookApi = async(reqHeader)=>{
   return await  commonApi("GET",`${SERVERURL}/all-books`,{},reqHeader)
 }
 
-// view single book
+// view single book - called by viewbook componet wehne load the component
 
-
+export const getSingleBookView = async(reqHeader,bookId)=>{
+  return await  commonApi("GET",`${SERVERURL}/books/${bookId}/view`,{},reqHeader)
+}
 
 // profile Update
 

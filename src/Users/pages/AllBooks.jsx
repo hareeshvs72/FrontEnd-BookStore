@@ -110,7 +110,7 @@ function AllBooks() {
                 <p className="text-blue-700 font-bold my-3 text-lg">{items?.author.slice(0,18)}</p>
                 <p className='text-center' >{items?.title.slice(0,20)}</p>
                 <p>$ {items?.price}</p>
-                <Link to={`/books/:${items?._id}/view`} className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
+                <Link to={`/books/${items?._id}/view`} className='px-5 py-3 bg-blue-400 my-3' >View...</Link>
               </div>
             </div>))
                
