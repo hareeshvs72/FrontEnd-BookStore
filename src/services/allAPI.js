@@ -31,8 +31,8 @@ export const getHomeBookApi = async()=>{
 
 // view all books -  called by book componet
 
-export const getAllBookApi = async(reqHeader)=>{
-  return await  commonApi("GET",`${SERVERURL}/all-books`,{},reqHeader)
+export const getAllBookApi = async(search,reqHeader)=>{
+  return await  commonApi("GET",`${SERVERURL}/all-books?search=${search}`,{},reqHeader)
 }
 
 // view single book - called by viewbook componet wehne load the component
