@@ -3,14 +3,22 @@ import Header from '../Components/Header'
 import Footer from '../../Component/Footer'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getHomeBookApi } from '../../services/allAPI'
+import { toast, ToastContainer } from 'react-toastify'
+import { useContext } from 'react'
+import { searchBookContext } from '../../contextApi/ContextShare'
+
 function Home() {
   const [homeBooks , setHomeBooks] = useState([])
+  const navigate = useNavigate()
+  const {searchKey,setSearchKey} =useContext(searchBookContext)
+
   useEffect(()=>{
+    setSearchKey("")
      getHomeBooks()
   },[])
-  console.log(homeBooks);
+  // console.log(homeBooks);
   
   const getHomeBooks = async()=>{
     try {
@@ -22,6 +30,24 @@ function Home() {
     } catch (error) {
       console.log(error);
       
+    }
+  }
+  const searchbooks = ()=>{
+    if(!searchKey){
+      toast.warning("Please Provide Book Title Here !!!")
+
+    }
+    else if(!sessionStorage.getItem("token")){
+           toast.warning("Please Login To Search Books...")
+           setTimeout(()=>{
+            navigate("/login")
+           },2500)
+    }
+    else if (sessionStorage.getItem('token') && searchKey){
+      navigate('/all-books')
+    }
+    else{
+      toast.warning("SomeThing Went Wrong")
     }
   }
   return (
@@ -36,8 +62,8 @@ function Home() {
           <p>   Give your family and friends a book   </p>
 
           <div className='mt-9 w-75  md:w-100 py-2 rounded-3xl ps-3 flex flex-cols px-3 justify-center items-center   bg-white'>
-            <input type="text" placeholder='search Books' className='w-100 border-none outline-0  text-black me-2' />
-            <button>  <FontAwesomeIcon className='text-black' icon={faMagnifyingGlass} /></button>
+            <input onChange={(e)=>setSearchKey(e.target.value)} type="text" placeholder='search Books' className='w-100 border-none outline-0  text-black me-2' />
+            <button onClick={searchbooks} >  <FontAwesomeIcon className='text-black' icon={faMagnifyingGlass} /></button>
           </div>
         </div>
       </div>
@@ -103,6 +129,13 @@ function Home() {
       </section>
 
       <Footer />
+       <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              pauseOnHover
+              theme="colored"
+      
+            />
     </>
   )
 }

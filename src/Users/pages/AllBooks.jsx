@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import { getAllBookApi } from '../../services/allAPI'
+import { useContext } from 'react'
+import { searchBookContext } from '../../contextApi/ContextShare'
 
 function AllBooks() {
   const [listStatus, setListStatus] = useState(false)
@@ -13,7 +15,7 @@ function AllBooks() {
   const [books, setBooks] = useState([])
   const [tempBooks, setTempBooks] = useState([])
   const [allcategory ,setallcategory]  = useState([])
-  const [searchKey , setSearchKey] = useState("")
+ const {searchKey,setSearchKey} = useContext(searchBookContext)
   console.log(books);
   console.log(searchKey);
   
@@ -73,7 +75,7 @@ console.log(allcategory);
           <div className="flex justify-center items-center flex-col my-5">
             <h1 className="text-3xl font-bold">Collections</h1>
             <div className="flex my-5 justify-center  w-full p-3 ">
-              <input onChange={(e)=>setSearchKey(e.target.value)} type="text" className='p-2 rounded border border-gray-400 text-black w-100 placeholder-gray-400' placeholder='Search by Title' />
+              <input value={searchKey} onChange={(e)=>setSearchKey(e.target.value)} type="text" className='p-2 rounded border border-gray-400 text-black w-100 placeholder-gray-400' placeholder='Search by Title' />
               <button className='px-5 bg-blue-400'>Search</button>
             </div>
           </div>
