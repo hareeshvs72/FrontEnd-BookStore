@@ -41,5 +41,23 @@ export const getSingleBookView = async(reqHeader,bookId)=>{
   return await  commonApi("GET",`${SERVERURL}/books/${bookId}/view`,{},reqHeader)
 }
 
+// all user upload books -called by profile
+export const getAllUserUploadBooksApi = async(reqHeader)=>{
+  return await  commonApi("GET",`${SERVERURL}/user-book`,{},reqHeader)
+}
+
+// all user purchased books
+
+export const getAllUSerPurchasedBooks = async(reqHeader)=>{
+  return await  commonApi("GET",`${SERVERURL}/user-bought-book`,{},reqHeader)
+}
+
+// remove user upload books
+
+export const removeUserUploadedBooks = async(bookId,reqHeader)=>{
+  return await  commonApi("DELETE",`${SERVERURL}/user-book/${bookId}/remove`,{},reqHeader)
+}
+
+
 // profile Update
 
