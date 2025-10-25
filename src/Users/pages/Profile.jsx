@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { addBookApi, getAllUSerPurchasedBooks, getAllUserUploadBooksApi, removeUserUploadedBooks } from '../../services/allAPI'
 import { use } from 'react'
 import Edit from '../Components/Edit'
+import SERVERURL  from '../../services/serverURL'
 
 function Profile() {
   const [sellBookStatus, setSellBookStatus] = useState(true)
@@ -35,9 +36,14 @@ function Profile() {
       setToken(sessionStorage.getItem('token'))
       const user = JSON.parse(sessionStorage.getItem("users"))
       setUserName(user.username)
-      setuserDp(user.Profile)
+      setuserDp(user.profile)
     }
   }, [])
+console.log(userName);
+console.log(userDp);
+
+
+  
 
   useEffect(()=>{
       if(bookStatus == true){
@@ -187,7 +193,7 @@ function Profile() {
 
         </div>
         <div className="bg-white p-3" style={{ width: '230px', height: '230px', borderRadius: '50%', marginLeft: '70px', marginTop: '-130px' }}>
-          <img style={{ width: '200px', height: '200px', borderRadius: '50%' }} src={userDp == "" ? "https://cdn-icons-png.flaticon.com/512/219/219988.png" : userDp }alt="profic picture" />
+       <img style={{ width: '200px', height: '200px', borderRadius: '50%' }} src={userDp == "" ? "https://cdn-icons-png.flaticon.com/512/219/219988.png" : userDp.startsWith("https://lh3.googleusercontent.com/")?userDp : `${SERVERURL}/uploads/${userDp}`  } width={'40px'} height={'40px'}  alt="user Dp" />
         </div>
         <div className="md:flex px-20 justify-between mt-5">
           <div className="flex justify-center items-center">

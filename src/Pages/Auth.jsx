@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import { googleLoginApi, loginApi, registerApi } from '../services/allAPI'
 import { GoogleLogin } from '@react-oauth/google'
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode'
 
 function Auth({ register }) {

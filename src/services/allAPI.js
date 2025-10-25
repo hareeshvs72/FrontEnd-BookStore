@@ -59,5 +59,11 @@ export const removeUserUploadedBooks = async(bookId,reqHeader)=>{
 }
 
 
-// profile Update
+//user profile Update
+
+export const updateUserProfileApi = async(reqBody,reqHeader)=>{
+  return await  commonApi("PUT",`${SERVERURL}/user-profile/edit`,reqBody,reqHeader)
+}
+
+
 
