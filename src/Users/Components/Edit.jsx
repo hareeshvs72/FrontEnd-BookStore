@@ -1,11 +1,12 @@
 import { faEdit, faL, faPen, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import SERVERURL from '../../services/serverURL'
 import { updateUserProfileApi } from '../../services/allAPI'
+import { userUpdateContext } from '../../contextApi/ContextShare'
 
 function Edit() {
   const [offCanvaseStatus, setOffCanvasStatus] =  useState(false)
@@ -20,7 +21,7 @@ function Edit() {
     const [token ,setToken] = useState("")
     const [existingProfile ,setExistingProfile] =useState("")
     const [preview,setPreview] = useState("")
-    
+    const {setUserEditResponse} = useContext(userUpdateContext)
     useEffect(()=>{
       if(sessionStorage.getItem("token")){
         const userToken = sessionStorage.getItem("token")
@@ -67,6 +68,7 @@ function Edit() {
         sessionStorage.setItem("users",JSON.stringify(result.data))
         handileReset()
         setOffCanvasStatus(false)
+        setUserEditResponse(result.data)
        }
        else{
         toast.error("smoething Went Wrong")

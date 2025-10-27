@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import Footer from '../../Component/Footer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,6 +8,7 @@ import { addBookApi, getAllUSerPurchasedBooks, getAllUserUploadBooksApi, removeU
 import { use } from 'react'
 import Edit from '../Components/Edit'
 import SERVERURL  from '../../services/serverURL'
+import { userUpdateContext } from '../../contextApi/ContextShare'
 
 function Profile() {
   const [sellBookStatus, setSellBookStatus] = useState(true)
@@ -24,7 +25,7 @@ function Profile() {
   const [ purchaseBoook , setPrchaseBooks] = useState([])
   const [userName,setUserName] = useState("")
   const [userDp,setuserDp] = useState("")
-
+   const {userEditResponse} = useContext(userUpdateContext)
 
   console.log(purchaseBoook);
   
@@ -38,7 +39,7 @@ function Profile() {
       setUserName(user.username)
       setuserDp(user.profile)
     }
-  }, [])
+  }, [userEditResponse])
 console.log(userName);
 console.log(userDp);
 

@@ -67,3 +67,10 @@ export const updateUserProfileApi = async(reqBody,reqHeader)=>{
 
 
 
+// admin api 
+
+// resource admin
+
+export const getAllUserApi = async(reqHeader)=>{
+  return await  commonApi("GET",`${SERVERURL}/all-user`,{},reqHeader)
+}
