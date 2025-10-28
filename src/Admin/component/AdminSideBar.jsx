@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { faBagShopping, faBars, faBook, faScrewdriverWrench, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBagShopping, faBars, faBook, faHome, faScrewdriverWrench, faUser } from '@fortawesome/free-solid-svg-icons'
 
 function AdminSideBar() {
   const [listStatus, setListStatus] = useState(false)
@@ -26,7 +26,7 @@ function AdminSideBar() {
           <ul className={listStatus ? "flex flex-col" : 'md:flex flex-col justify-center  hidden'} >
             <li className='my-3'>
 
-              <Link to={'/admin-dashbord'} > <FontAwesomeIcon icon={faBook} className='mx-2' /> HOME </Link>
+              <Link to={'/admin-dashbord'} > <FontAwesomeIcon icon={faHome} className='mx-2' /> HOME </Link>
             </li>
             <li className='my-3'>
 

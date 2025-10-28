@@ -74,3 +74,16 @@ export const updateUserProfileApi = async(reqBody,reqHeader)=>{
 export const getAllUserApi = async(reqHeader)=>{
   return await  commonApi("GET",`${SERVERURL}/all-user`,{},reqHeader)
 }
+
+//  list all books in api
+
+export const listAllBookAdminsAPI = async(reqHeader)=>{
+  return await  commonApi("GET",`${SERVERURL}/admin-all-books`,{},reqHeader)
+}
+
+// update book status By admin 
+
+
+export const updateBookStatusByAdmin = async(reqBody,reqHeader)=>{
+  return await  commonApi("PUT",`${SERVERURL}/admin/book/approve`,reqBody,reqHeader)
+}

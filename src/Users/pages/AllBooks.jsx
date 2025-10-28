@@ -110,7 +110,7 @@ console.log(allcategory);
                 {
                   books?.length > 0 ?
                     books.map((items) => (
-                      <div key={items._id} className="shadow p-3 rounded my-3 mx-2">
+                      <div key={items._id} className="shadow p-3 rounded my-3 mx-2" hidden={items?.status == "sold" || items?.status == "pending"} >
                         <img width={'100%'} style={{ height: '300px' }} src={items?.imageUrl} alt="book" />
                         <div className="flex justify-center flex-col items-center ">
                           <p className="text-blue-700 font-bold my-3 text-lg">{items?.author.slice(0, 18)}</p>
