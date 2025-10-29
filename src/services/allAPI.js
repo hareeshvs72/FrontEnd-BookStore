@@ -65,6 +65,10 @@ export const updateUserProfileApi = async(reqBody,reqHeader)=>{
   return await  commonApi("PUT",`${SERVERURL}/user-profile/edit`,reqBody,reqHeader)
 }
 
+// update admin profile - called by admin profile compone 
+export const updateAdminProfile = async(reqBody,reqHeader)=>{
+  return await  commonApi("PUT",`${SERVERURL}/user-profile/edit`,reqBody,reqHeader)
+}
 
 
 // admin api 
@@ -87,3 +91,5 @@ export const listAllBookAdminsAPI = async(reqHeader)=>{
 export const updateBookStatusByAdmin = async(reqBody,reqHeader)=>{
   return await  commonApi("PUT",`${SERVERURL}/admin/book/approve`,reqBody,reqHeader)
 }
+
+// 
