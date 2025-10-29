@@ -5,6 +5,7 @@ import AdminSideBar from '../component/AdminSideBar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareUpRight, faLocationDot, faXmark, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
+import AddJob from '../component/AddJob'
 
 function CareerAdmin() {
   const [jobPostList, setJobPostlist] = useState(true)
@@ -37,7 +38,7 @@ function CareerAdmin() {
                       <button className='md:px-5 px-2 md:py-2 bg-[#327E32] text-white'>Search</button>
                     </div>
                     <div className='mt-3 md:flex flex-start'>
-                      <button className='md:px-5 px-3 py-2 flex  bg-blue-700 hover:bg-white border border-blue-500 hover:text-blue-500 font-bold text-white'>Add Job </button>
+                      <button > <AddJob/> </button>
                     </div>
                   </div>
 
