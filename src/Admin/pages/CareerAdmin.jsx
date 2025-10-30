@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminHead from '../component/AdminHead'
 import Footer from '../../Component/Footer'
 import AdminSideBar from '../component/AdminSideBar'
@@ -6,10 +6,58 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareUpRight, faLocationDot, faXmark, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import AddJob from '../component/AddJob'
+import { deleteJobApi, getAllJobApi } from '../../services/allAPI'
 
 function CareerAdmin() {
   const [jobPostList, setJobPostlist] = useState(true)
   const [listApplicationStatus, setListAplicationStatus] = useState(false)
+  const [allJobs,setAllJobs] = useState([])
+ const [SearchKey,setSearchKey] = useState("")
+const [deleteJobResponse ,setDeleteJobResponse] = useState({})
+
+ useEffect(()=>{
+ 
+  if(jobPostList){
+  getAllJobs()
+
+  }
+ },[SearchKey,deleteJobResponse])
+ 
+ console.log(allJobs);
+ console.log(SearchKey);
+//  get all jobs
+  const getAllJobs = async()=>{
+         try {
+          const result = await getAllJobApi(SearchKey)
+          if(result.status == 200){
+            setAllJobs(result.data)
+          }
+         } catch (error) {
+          console.log(error);
+          
+         }
+  }
+  // delete jobs 
+
+  const deleteJob = async(id)=>{
+    const token = sessionStorage.getItem("token") 
+    if(token){
+         const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
+    try {
+      const result = deleteJobApi(id,reqHeader)
+      if(result.status == 200){
+        
+        setDeleteJobResponse(result.data)
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+    }
+   
   return (
     <>
 
@@ -34,7 +82,7 @@ function CareerAdmin() {
                 <>
                   <div className="flex my-5  md:justify-between flex-col md:flex-row  items-center">
                     <div className='flex w-full'>
-                      <input type="text" className='p-2 me-2 rounded border border-gray-400 text-black w-100 placeholder-gray-400' placeholder='Job Title' />
+                      <input onChange={(e)=>setSearchKey(e.target.value)} type="text" className='p-2 me-2 rounded border border-gray-400 text-black w-100 placeholder-gray-400' placeholder='Job Title' />
                       <button className='md:px-5 px-2 md:py-2 bg-[#327E32] text-white'>Search</button>
                     </div>
                     <div className='mt-3 md:flex flex-start'>
@@ -42,25 +90,27 @@ function CareerAdmin() {
                     </div>
                   </div>
 
-                  <div className='border w-full rounded shadow-2xl p-4'>
+                 {allJobs?.length>0 ?
+                 allJobs?.map((item,index)=>(
+                   <div key={index} className='border w-full rounded shadow-2xl p-4'>
                     <div>
                       <div className='flex justify-between'>
-                        <h1 className='m-3 font-bold'>job title </h1>
-                        <button className='md:px-5 px-3 bg-red-700 hover:bg-black border border-red-500 hover:text-blue-500 font-bold text-white'>Delete <FontAwesomeIcon icon={faTrash} className='text-xl' /></button>
+                        <h1 className='m-3 font-bold'>{item?.title} </h1>
+                        <button type='button' onClick={()=>deleteJob(item?._id)} className='md:px-5 px-3 bg-red-700 hover:bg-black border border-red-500 hover:text-blue-500 font-bold text-white'>Delete <FontAwesomeIcon icon={faTrash} className='text-xl' /></button>
                       </div>
                       <div className='px-5 pe-29'> <hr className='my-3 ' /></div>
 
                       <div>
-                        <p className='my-3'> <FontAwesomeIcon icon={faLocationDot} className='text-blue-400 ' /> Location</p>
-                        <p className='my-3'>  Job Type: Senior Level</p>
+                        <p className='my-3'> <FontAwesomeIcon icon={faLocationDot} className='text-blue-400 ' /> {item?.location}</p>
+                        <p className='my-3'>  Job Type: {item?.jobType}</p>
 
-                        <p className='my-3'> Salary: 10 lakhs</p>
+                        <p className='my-3'> Salary: {item?.salary}</p>
 
-                        <p className='my-3'> Qualification: M-Tech /B-Tech/BCA/MCA</p>
+                        <p className='my-3'> Qualification: {item?.qualification}</p>
 
-                        <p className='my-3'>Experience: 5-7</p>
+                        <p className='my-3'>Experience: {item?.experience}</p>
 
-                        <p className='my-3 text-justify'> Description : Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                        <p className='my-3 text-justify'> Description : {item?.description} </p>
 
 
                       </div>
@@ -69,6 +119,13 @@ function CareerAdmin() {
 
 
                   </div>
+                 ))
+                 
+                  :
+                  <div>
+                    <p>Job Opnening ...</p>
+                  </div>
+                  }
                 </>
 
               }

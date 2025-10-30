@@ -92,4 +92,22 @@ export const updateBookStatusByAdmin = async(reqBody,reqHeader)=>{
   return await  commonApi("PUT",`${SERVERURL}/admin/book/approve`,reqBody,reqHeader)
 }
 
-// 
+// --------------------- jobs api ------------------------------------
+
+// add job api 
+
+export const addJobApi = async(reqBody,reqHeader)=>{
+  return await  commonApi("POST",`${SERVERURL}/add-job`,reqBody,reqHeader)
+}
+
+// deleet job api 
+
+export const deleteJobApi = async(jobId,reqHeader)=>{
+  return await  commonApi("DELETE",`${SERVERURL}/delete/${jobId}/job`,{},reqHeader)
+}
+
+// get all job
+
+export const getAllJobApi = async(searchKey)=>{
+  return await  commonApi("GET",`${SERVERURL}/get-Jobs?search=${searchKey}`)
+}

@@ -56,7 +56,7 @@ function AddJob() {
                         />
                       <div className=' my-3'>
                         <textarea
-                          placeholder="Cover Letter"
+                          placeholder="Description"
                           className="my-2 w-full h-25 px-3 py-2  border  border-gray-400  bg-white rounded"
                         ></textarea>
                         </div>
