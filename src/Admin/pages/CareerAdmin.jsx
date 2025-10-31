@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AdminHead from '../component/AdminHead'
 import Footer from '../../Component/Footer'
 import AdminSideBar from '../component/AdminSideBar'
@@ -6,9 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareUpRight, faLocationDot, faXmark, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import AddJob from '../component/AddJob'
-import { deleteJobApi, getAllJobApi } from '../../services/allAPI'
+import {  deleteJobApi, getAllJobApi } from '../../services/allAPI'
+import { jobContext } from '../../contextApi/ContextShare'
 
 function CareerAdmin() {
+    const  {addJobResponse,setAddJobResponse} =useContext(jobContext)
+
   const [jobPostList, setJobPostlist] = useState(true)
   const [listApplicationStatus, setListAplicationStatus] = useState(false)
   const [allJobs,setAllJobs] = useState([])
@@ -16,21 +19,27 @@ function CareerAdmin() {
 const [deleteJobResponse ,setDeleteJobResponse] = useState({})
 
  useEffect(()=>{
- 
+   
   if(jobPostList){
   getAllJobs()
 
   }
- },[SearchKey,deleteJobResponse])
+ },[SearchKey,deleteJobResponse,addJobResponse])
+
+ console.log(deleteJobResponse);
  
  console.log(allJobs);
  console.log(SearchKey);
+
+
+
 //  get all jobs
   const getAllJobs = async()=>{
          try {
           const result = await getAllJobApi(SearchKey)
           if(result.status == 200){
             setAllJobs(result.data)
+            
           }
          } catch (error) {
           console.log(error);
@@ -40,16 +49,21 @@ const [deleteJobResponse ,setDeleteJobResponse] = useState({})
   // delete jobs 
 
   const deleteJob = async(id)=>{
+    console.log("inside delete job");
+    
     const token = sessionStorage.getItem("token") 
     if(token){
          const reqHeader = {
         "Authorization": `Bearer ${token}`
       }
     try {
-      const result = deleteJobApi(id,reqHeader)
+      const result = await deleteJobApi(id,reqHeader)
       if(result.status == 200){
+        // console.log(result.data);
         
         setDeleteJobResponse(result.data)
+        console.log(deleteJobResponse);
+        
       }
     } catch (error) {
       console.log(error);
@@ -82,17 +96,17 @@ const [deleteJobResponse ,setDeleteJobResponse] = useState({})
                 <>
                   <div className="flex my-5  md:justify-between flex-col md:flex-row  items-center">
                     <div className='flex w-full'>
-                      <input onChange={(e)=>setSearchKey(e.target.value)} type="text" className='p-2 me-2 rounded border border-gray-400 text-black w-100 placeholder-gray-400' placeholder='Job Title' />
+                      <input value={SearchKey} onChange={(e)=>setSearchKey(e.target.value)} type="text" className='p-2 me-2 rounded border border-gray-400 text-black w-100 placeholder-gray-400' placeholder='Job Title' />
                       <button className='md:px-5 px-2 md:py-2 bg-[#327E32] text-white'>Search</button>
                     </div>
                     <div className='mt-3 md:flex flex-start'>
-                      <button > <AddJob/> </button>
+                       <AddJob/> 
                     </div>
                   </div>
 
                  {allJobs?.length>0 ?
                  allJobs?.map((item,index)=>(
-                   <div key={index} className='border w-full rounded shadow-2xl p-4'>
+                   <div key={index} className='border w-full my-3 rounded shadow-2xl p-4'>
                     <div>
                       <div className='flex justify-between'>
                         <h1 className='m-3 font-bold'>{item?.title} </h1>
