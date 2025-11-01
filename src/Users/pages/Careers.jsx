@@ -2,16 +2,81 @@ import React, { useContext, useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import Footer from '../../Component/Footer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSquareUpRight, faLocationDot, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { getAllJobApi } from '../../services/allAPI'
+import { faSquareUpRight, faLocationDot, faXmark, faL } from '@fortawesome/free-solid-svg-icons'
+import { addAplicationAPI, getAllJobApi } from '../../services/allAPI'
+import { toast, ToastContainer } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 function Careers() {
   const [modalStatus, setModalStatus] = useState(false)
    const [allJobs,setAllJobs] = useState([])
    const [searchkey,setSearchKey] = useState("")
+   const [aplicationDetails,setAplicationDetails] = useState({
+     fullname:"",email:"",qualification:"",phone:"",coverLetter:"",resume:""
+   })
+   const navigate  = useNavigate()
+   const [jobTitle,setJobTitle] = useState("")
+   const [jobId,setJobId] = useState("")
+   
+   const [fileKey,setFileKey] = useState(Date.now())
+   console.log(aplicationDetails);
+   
    useEffect(()=>{
     getAllJobs()
    },[searchkey])
+
+ const handileApplyJob  = (job)=>{
+  setJobId(job?._id)
+  setJobTitle(job?.title)
+  setModalStatus(true)
+ }
+
+  //   add job aplication
+
+  const handilSubmitApplication = async () =>{
+ 
+       const token = sessionStorage.getItem("token")
+        const {fullname,email,qualification,phone,coverLetter} = aplicationDetails
+         if(!token){
+          toast.info("Please Login To Apply Job !!!")
+          setTimeout(()=>{
+             navigate('/login')
+          },2000)
+         }else if(!fullname || !email || !qualification || !phone || !coverLetter || !jobId || !jobTitle){
+               toast.info("please Fill The Form Completely")
+         }else{
+             const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
+      const reqBody =new FormData()
+      for(let key in aplicationDetails){
+        reqBody.append(key,aplicationDetails[key])
+      }
+      reqBody.append("jobTitle",jobTitle)
+       reqBody.append("jobId",jobId)
+          
+       const result  = await addAplicationAPI(reqBody,reqHeader)
+       console.log(result);
+       if(result.status == 200){
+        toast.success("Application Submitted SuccessFully !!!")
+        handileRest()
+        setModalStatus(false)
+       }
+       else if(result.status == 409){
+        toast.warning(result.response.data)
+        handileRest()
+       }
+       else{
+        toast.error("Something Went Wrong !!!")
+        handileRest()
+        setModalStatus(false)
+       }
+       
+
+         }
+       
+  }
+
    const getAllJobs = async()=>{
            try {
             const result = await getAllJobApi(searchkey)
@@ -23,8 +88,15 @@ function Careers() {
             
            }
     }
-    console.log(allJobs);
-    
+    // console.log(allJobs);
+
+    // resut job aplication form
+
+    const handileRest = ()=>{
+      setAplicationDetails( {fullname:"",email:"",qualification:"",phone:"",coverLetter:"",resume:""})
+      setFileKey(Date.now())
+    }
+
   return (
     <>
       <Header />
@@ -51,7 +123,7 @@ function Careers() {
             <div>
               <div className='flex justify-between'>
                 <h1 className='m-3 font-bold'>{item?.title} </h1>
-                <button onClick={() => setModalStatus(true)} className='md:px-5 px-3 bg-blue-700 hover:bg-white border border-blue-500 hover:text-blue-500 font-bold text-white'>Apply <FontAwesomeIcon icon={faSquareUpRight} className='text-xl' /></button>
+                <button onClick={() =>handileApplyJob(item)} className='md:px-5 px-3 bg-blue-700 hover:bg-white border border-blue-500 hover:text-blue-500 font-bold text-white'>Apply <FontAwesomeIcon icon={faSquareUpRight} className='text-xl' /></button>
               </div>
               <div className='px-5 pe-29'> <hr className='my-3 ' /></div>
 
@@ -95,11 +167,15 @@ function Careers() {
                     <form action="">
                       <div className='flex'>
                         <input
+                        value={aplicationDetails.fullname}
+                        onChange={(e)=>setAplicationDetails({...aplicationDetails,fullname:e.target.value})}
                           type="text"
                           placeholder="Full Name"
                           className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 bg-white rounded"
                         />
                         <input
+                         value={aplicationDetails.qualification}
+                        onChange={(e)=>setAplicationDetails({...aplicationDetails,qualification:e.target.value})}
                           type="text"
                           placeholder="Qualification"
                           className="px-3 py-2 my-2 w-full border  border-gray-400 mx-2 bg-white rounded"
@@ -107,36 +183,41 @@ function Careers() {
                       </div>
                       <div className='flex'>
                         <input
+                         value={aplicationDetails.email}
+                        onChange={(e)=>setAplicationDetails({...aplicationDetails,email:e.target.value})}
                           type="email "
                           placeholder="Email"
                           className="px-3 py-2 my-2 w-full border mx-2 border-gray-400 bg-white rounded"
                         />
                         <input
-                          type="number"
+                         value={aplicationDetails.phone}
+                        onChange={(e)=>setAplicationDetails({...aplicationDetails,phone:e.target.value})}
+                          type="text"
                           placeholder="Phone Number"
                           className="px-3 py-2 my-2 w-full border  border-gray-400 mx-2 bg-white rounded"
                         />
                       </div>
                       <div className='mx-2 my-3'>
                         <textarea
+                         value={aplicationDetails.coverLetter}
+                        onChange={(e)=>setAplicationDetails({...aplicationDetails,coverLetter:e.target.value})}
                           placeholder="Cover Letter"
                           className="my-2 w-full h-25 px-3 py-2  border  border-gray-400  bg-white rounded"
                         ></textarea>
                         </div>
 
                     
-                             <div className="mx-3">
-                              <label htmlFor="Resume">Resume</label>
-                              <input type="file" name='' id='Resume' className='w-full  border rounded file:p-2 file:text-white file:bg-gray-400' />
-                             </div>
-
+                        <div className="mx-3">
+                        <label htmlFor="Resume">Resume</label>
+                        <input key={fileKey} onChange={(e)=>setAplicationDetails({...aplicationDetails,resume:e.target.files[0]})} type="file" name='' id='Resume' className='w-full  border rounded file:p-2 file:text-white file:bg-gray-400' />
+                        </div>
 
                     </form>
 
                   </div>
                   <div className='bg-gray-400 p-2 w-full flex justify-end'>
-                    <button className="py-2 px-3 rounded bg-black text-white">Reset</button>
-                       <button className="py-2 px-3 rounded mx-2 bg-blue-600 text-white">Submit</button>
+                    <button type='button' onClick={handileRest} className="py-2 px-3 rounded bg-black text-white">Reset</button>
+                       <button type='button' onClick={handilSubmitApplication} className="py-2 px-3 rounded mx-2 bg-blue-600 text-white">Submit</button>
 
                   </div>
 
@@ -147,6 +228,13 @@ function Careers() {
 
       </>
       <Footer />
+        <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        pauseOnHover
+        theme="colored"
+
+      />
     </>
   )
 }

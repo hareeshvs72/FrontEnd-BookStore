@@ -6,8 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareUpRight, faLocationDot, faXmark, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import AddJob from '../component/AddJob'
-import {  deleteJobApi, getAllJobApi } from '../../services/allAPI'
+import {  deleteJobApi, getAllAplicationAPI, getAllJobApi } from '../../services/allAPI'
 import { jobContext } from '../../contextApi/ContextShare'
+import SERVERURL from '../../services/serverURL'
 
 function CareerAdmin() {
     const  {addJobResponse,setAddJobResponse} =useContext(jobContext)
@@ -17,6 +18,8 @@ function CareerAdmin() {
   const [allJobs,setAllJobs] = useState([])
  const [SearchKey,setSearchKey] = useState("")
 const [deleteJobResponse ,setDeleteJobResponse] = useState({})
+const [aplications,setAplications] = useState([])
+console.log(aplications);
 
  useEffect(()=>{
    
@@ -24,12 +27,16 @@ const [deleteJobResponse ,setDeleteJobResponse] = useState({})
   getAllJobs()
 
   }
- },[SearchKey,deleteJobResponse,addJobResponse])
+  else if(listApplicationStatus){
+    getAllAPlication()
+  }
+ },[SearchKey,deleteJobResponse,addJobResponse,listApplicationStatus])
 
  console.log(deleteJobResponse);
  
  console.log(allJobs);
  console.log(SearchKey);
+console.log(aplications);
 
 
 
@@ -71,7 +78,31 @@ const [deleteJobResponse ,setDeleteJobResponse] = useState({})
     }
   }
     }
-   
+
+    // get all aplications
+    
+    const getAllAPlication = async ()=>{
+      const token = sessionStorage.getItem("token")
+      try {
+        if(token){
+         const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
+      const result  = await getAllAplicationAPI(reqHeader)
+      if(result.status == 200){
+        setAplications(result.data)
+      }
+      else{
+        console.log(result);
+        
+      }
+    }
+     
+      } catch (error) {
+        
+      }
+    }
+
   return (
     <>
 
@@ -161,16 +192,25 @@ const [deleteJobResponse ,setDeleteJobResponse] = useState({})
                     </thead>
                     {/* duplicate */}
                    <tbody>
-                    <tr>
-                      <td className='border border-gray-200 p-3 text-center'>1</td>
-                      <td className='border border-gray-200 p-3 text-center'>Front-End Developer</td>
-                      <td className='border border-gray-200 p-3 text-center'>John Wick</td>
-                      <td className='border border-gray-200 p-3 text-center'>BMCFA</td>
-                      <td className='border border-gray-200 p-3 text-center'>babayaga@gmail.com</td>
-                      <td className='border border-gray-200 p-3 text-center'>99442290194</td>
-                      <td className='border border-gray-200 p-3 text-center'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi deleniti earum atque voluptas fugit, delectus perferendis rerum dolorem vel a nisi reprehenderit! Incidunt, at quod nihil quae distinctio cumque. Aut.</td>
-                      <td className='border border-gray-200 p-3 text-center'><Link className='text-blue-600 underline'>Resume</Link></td>
+                  {aplications?.length>0 ? 
+                  aplications?.map((item,index)=>(
+                    <tr key={item?._id}>
+                      <td className='border border-gray-200 p-3 text-center'>{index+1}</td>
+                      <td className='border border-gray-200 p-3 text-center'>{item?.jobTitle}</td>
+                      <td className='border border-gray-200 p-3 text-center'>{item?.fullname}</td>
+                      <td className='border border-gray-200 p-3 text-center'>{item?.qualification}</td>
+                      <td className='border border-gray-200 p-3 text-center'>{item?.email}</td>
+                      <td className='border border-gray-200 p-3 text-center'>{item?.phone}</td>
+                      <td className='border border-gray-200 p-3 text-center'>{item?.coverLetter}</td>
+                      <td className='border border-gray-200 p-3 text-center'><Link to={`${SERVERURL}/pdf/${item?.resume}`} target='_blank' className='text-blue-600 underline'>Resume</Link></td>
                     </tr>
+                  ))
+                   
+                    :
+                     <div>
+                      <p>No Aplication are Avilable</p>
+                     </div>
+                    }
                      </tbody>
                   </table>
                 </div>

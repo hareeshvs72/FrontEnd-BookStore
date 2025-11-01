@@ -111,3 +111,18 @@ export const deleteJobApi = async(jobId,reqHeader)=>{
 export const getAllJobApi = async(searchKey)=>{
   return await  commonApi("GET",`${SERVERURL}/get-Jobs?search=${searchKey}`)
 }
+
+
+// ---------------- aplication ----------------------
+
+// get all aplication called by admin carera component
+
+export const getAllAplicationAPI = async(reqHeader)=>{
+  return await  commonApi("GET",`${SERVERURL}/all-aplication`,{},reqHeader)
+}
+
+// add job aplication  called by carear by user
+
+export const addAplicationAPI = async(reqBody,reqHeader)=>{
+  return await  commonApi("POST",`${SERVERURL}/apllication/add`,reqBody,reqHeader)
+}
