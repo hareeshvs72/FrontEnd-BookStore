@@ -385,8 +385,8 @@ console.log(userDp);
                     <div className="flex mt-3 items-center">
                     {item?.status == "pending" ? <img style={{ width: '100px', height: '100px', borderRadius: '50%' }} src="https://tse4.mm.bing.net/th/id/OIP.dxFEodSiLPxvk6UQAkhf0wHaGa?pid=Api&P=0&h=180" alt="pending icon" /> :
                      item?.status == "approve" ?
-                      <img style={{ width: '100px', height: '100px', borderRadius: '50%' }} src="https://www.mercedescano.com/wp-content/uploads/2019/03/Approved.jpg" alt="pending icon" className='mx-2' /> :
-                        <img style={{ width: '100px', height: '100px', borderRadius: '50%' }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgEHPii5KxeW-XVr2pxR0YTEHDiaFdBpIbMg&s" alt="pending icon" className='mx-2' />}
+                      <img style={{ width: '100px', height: '100px', borderRadius: '50%' }} src="https://www.mercedescano.com/wp-content/uploads/2019/03/Approved.jpg" alt="aprove icon" className='mx-2' /> :
+                        <img style={{ width: '100px', height: '100px', borderRadius: '50%' }} src="https://cdn-icons-png.flaticon.com/512/6188/6188726.png" alt="pending icon" className='mx-2' />}
 
                     </div>
                   </div>
@@ -426,7 +426,7 @@ console.log(userDp);
                       {item?.abstract}
                     </p>
                     <div className="flex mt-3 items-center">
-                      <img style={{ width: '100px', height: '100px', borderRadius: '50%' }} src="https://www.pngmart.com/files/7/Sold-PNG-Photo.png" alt="pending icon" />
+                      <img style={{ width: '100px', height: '100px', borderRadius: '50%' }} src="https://www.cashforcars.com/content/images/purchased.png" alt="Purchased icon" />
 
 
                     </div>

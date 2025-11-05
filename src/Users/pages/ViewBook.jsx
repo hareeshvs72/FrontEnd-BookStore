@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBackward, faCamera, faEye, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Link, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
-import { getSingleBookView } from '../../services/allAPI'
+import { getSingleBookView, makePayemntAPI } from '../../services/allAPI'
 import { toast, ToastContainer } from 'react-toastify'
 import SERVERURL from '../../services/serverURL'
+import {loadStripe} from '@stripe/stripe-js';
 
 function ViewBook() {
   const [modalStatus, setModalStatus] = useState(false)
@@ -45,6 +46,30 @@ function ViewBook() {
 
     }
   }
+  const handilePayment = async()=>{
+    // stripe object
+      
+const stripe = await loadStripe('pk_test_51SPbdnFP9sjWd71VTR1EbJCanTw6bi4hyGCs641wW2nGVhdwSjeZ8zlCkxKEYj5SBmEn1WbBWaPM9QAEPhEH6UVW00l5fZTjdi');
+//  console.log(stripe);
+//  reqBoday - book , reqHeade - token
+const token = sessionStorage.getItem("token")
+if(token){
+   const reqHeader = {
+        "Authorization": `Bearer ${token}`
+      }
+      try {
+        const result =  await makePayemntAPI(book,reqHeader)
+        console.log(result);
+        const checkOutUrl = result.data.checkOutSessionURL
+        window.location.href = checkOutUrl
+     
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
+}
+  }
   return (
     <>
       <Header />
@@ -81,7 +106,7 @@ function ViewBook() {
               </div>
               <div className='flex justify-end'>
                 <button className='bg-blue-900 text-white p-2 rounded'><Link to={'/all-books'} ><FontAwesomeIcon icon={faBackward} className='me-3' />Back</Link></button>
-                <button className='bg-green-900 text-white p-2 ms-5 rounded'>Buy {book?.price}</button>
+                <button onClick={handilePayment} className='bg-green-900 text-white p-2 ms-5 rounded'>Buy {book?.price}</button>
               </div>
 
             </div>

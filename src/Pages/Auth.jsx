@@ -6,8 +6,11 @@ import { toast, ToastContainer } from 'react-toastify'
 import { googleLoginApi, loginApi, registerApi } from '../services/allAPI'
 import { GoogleLogin } from '@react-oauth/google'
 import {jwtDecode} from 'jwt-decode'
+import { useContext } from 'react'
+import { userAuthContext } from '../contextApi/AuthenticationContext'
 
 function Auth({ register }) {
+  const {role,authorisedUser,setAuthorisedUser} = useContext(userAuthContext)
   const navigate = useNavigate()
   const [viewPasswordStatus, setViewPasswordStatus] = useState(false)
   const [userDetails, setUserDetails] = useState({
@@ -16,6 +19,7 @@ function Auth({ register }) {
     password: ''
   })
   // console.log(userDetails);
+
   //  register steps
   const handileRegister = async () => {
     console.log('Inside handileRegister ');
@@ -66,6 +70,7 @@ function Auth({ register }) {
           toast.success("Login Sucessfully !!!")
           sessionStorage.setItem("users", JSON.stringify(result.data.user))
           sessionStorage.setItem("token", result.data.token)
+          setAuthorisedUser(true)
           setTimeout(() => {
             if (result.data.user.role == 'admin') {
               navigate('/admin-dashbord')

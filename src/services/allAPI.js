@@ -16,6 +16,14 @@ export const loginApi = async(reqBody)=>{
 export const googleLoginApi = async(reqBody)=>{
   return await  commonApi("POST",`${SERVERURL}/google-login`,reqBody)
 }
+
+// make payment - called by view book when click buy button
+
+export const makePayemntAPI = async(reqBody,reqHeader)=>{
+  return await  commonApi("POST",`${SERVERURL}/make-payment`,reqBody,reqHeader)
+}
+
+
   
 // home page book api - call by home in useeffect
 export const getHomeBookApi = async()=>{

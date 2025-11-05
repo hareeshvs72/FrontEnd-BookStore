@@ -1,14 +1,17 @@
-import { faInstagram, faXTwitter, faFacebook } from '@fortawesome/free-brands-svg-icons'
+import { faInstagram, faXTwitter, faFacebook, faSlack } from '@fortawesome/free-brands-svg-icons'
 import { faAddressCard, faBars, faPowerOff, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import SERVERURL from '../../services/serverURL'
 import { userUpdateContext } from '../../contextApi/ContextShare'
+import { userAuthContext } from '../../contextApi/AuthenticationContext'
 
 
 
 function Header() {
+    const {role,authorisedUser,setAuthorisedUser} = useContext(userAuthContext)
+  
   const [listStatus , setListStatus] = useState(false)
   const [token ,setToken] = useState("")
   const [userDp , setUserDp] = useState("")
@@ -28,6 +31,7 @@ function Header() {
   
    const logout = ()=>{
     sessionStorage.clear()
+    setAuthorisedUser(false)
     setToken("")
     setUserDp("")
     setDropDownStatus(false)
